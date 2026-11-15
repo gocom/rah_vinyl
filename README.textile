@@ -83,6 +83,6 @@ bc. <rah::vinyl purge tags="tag1, tag2" />
 
 h2. Changelog
 
-h3. Version 0.1.0 - upcoming
+h3. Version 0.1.0 - 2026/11/15
 
 * Initial release.
