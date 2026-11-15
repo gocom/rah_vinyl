@@ -1,0 +1,88 @@
+h1. rah_vinyl
+
+"Download":https://github.com/gocom/rah_vinyl/releases | "Packagist":https://packagist.org/packages/rah/rah_vinyl | "Issues":https://github.com/gocom/rah_vinyl/issues
+
+A plugin for "Textpattern CMS":https://textpattern.com that provides full-page caching support using "Vinyl Cache":https://vinyl-cache.org/. The plugin allows running Textpattern CMS behind Vinyl Cache proxy, where the plugin will handle flushing the cache stored in Vinyl when content is updated in Textpattern CMS.
+
+h2. Install
+
+Using "Composer":https://getcomposer.org:
+
+bc. $ composer require rah/rah_vinyl
+
+Or "download":https://github.com/gocom/rah_vinyl/releases an installer package.
+
+h2. Requirements
+
+* Textpattern >= 4.7.0.
+* PHP >= 8.1.0.
+* "Vinyl Cache":https://vinyl-cache.org/ or "Varnish":https://www.varnish.org/ server.
+
+h2. Configuration
+
+h3. Texpattern
+
+Connected Vinyl Cache server can be configured through Textpattern's @textpattern/config.php@ file:
+
+bc. define('RAH_VINYL_BASEURL', 'http://vinyl-cache.tld');
+
+The @RAH_VINYL_BASEURL@ is expected to contain a full URL address from where the Vinyl Cache backend can be reached.
+
+h3. Vinyl Cache
+
+Vinyl Cache, or Varnish, server is highly configurable, and how it's cache functions is customizable within it's configuration. An example VLC configuration file, "example/default.vcl":https://github.com/gocom/rah_vinyl/blob/main/example/default.vcl, is provided as a basis for configuration. To use the example configuration, you would at least need to change the default backend and purge hostnames. The default backend hostname is where the Textpattern CMS installation can be found from, and Vinyl Cache proxy routes the request there. The purge hostnames define the addresses that can control the cache and purge contents from it. In general, access control in Vinly Cache, and Varnish, is done with hostnames, private or otherwise, or IP addresses.
+
+The Textpattern plugin will send custom HTTP request method @PURGE@ and @PURGEALL@ to the Vinyl Cache server, which are targeted in the configuration for flushing the cache. The @PURGEALL@ method is expected to flush the whole cache, and @X-Pool@ header can be used with @PURGE@ method to clear singular items.
+
+The plugin will send @PURGEALL@ request, if any content is created, updated or deleted via Textpattern CMS's admin panel.
+
+h2. Tag and attributes
+
+The plugin, rah_vinyl, introduces a new self-closing tag to Textpattern's arsenal. The tag can be used to instruct Vinyl Cache to ignore pages where the tag has been rendered, or flushing the cache on demand.
+
+bc. <rah::vinyl />
+
+The tag is a container and attributes for it follow.
+
+*ignore*
+If used, tells Vinyl Cache to ignore the page, skip cache and pass the request to the Textpattern backend. When the tag is used with @ignore@ attribute, it will add @X-Pool: ignore@ header to the page's response, which can then be used in Vinyl Cache's VLC configuration to skip caching, passing the request directly to Textpattern's backend.
+Default: _undefined_ Example: @ignore@
+
+*tags*
+Specifies tags that are added to the current page. Sends the given comma-separated list of tags as the @X-Pool@ header with the page's response, which can then be used in Vinyl Cache's VLC configuration to associate pool tags with the page, allowing cache purges to target the page based on a tag.
+Default: _undefined_ Example: @tags="profile"@
+
+*purge*
+Sends purge request to the Vinyl Cache backend when specified. The purge request is executed right away when the tag is rendered. If @tags@ attribute is given, sends @PURGE@ method request with @X-Pool@ header containing the given tags. If @tags@ attribute is not given, sends @PURGEALL@ request to Vinly Cache.
+Default: _undefined_ Example: @purge@
+
+h2. Examples
+
+h3. Do not cache page in Vinyl Cache
+
+bc. <rah::vinyl ignore/>
+
+h3. Add specified tags to to the page
+
+bc. <rah::vinyl tags="tag1, tag2" />
+<rah::vinyl tags="tag2, tag3" />
+
+The above would add @tag1@, @tag2@, @tag3@ and @tag4@ X-Pool tags to the page's response.
+
+h3. Manually purge all content
+
+The following would send @PURGEALL@ request to Vinyl Cache:
+
+bc. <rah::vinyl purge />
+
+h3. Manually purge specified tags
+
+The following would send @PURGE@ request to Vinyl Cache with @X-Pool@ header containing the specified tags:
+
+bc. <rah::vinyl purge tags="tag1, tag2" />
+
+h2. Changelog
+
+h3. Version 0.1.0 - upcoming
+
+* Initial release.
