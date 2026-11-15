@@ -106,14 +106,14 @@ final class Rah_Vinyl_Client
     ): void {
         $baseUrl = $this->config->getBaseUrl();
 
-        if (!$baseUrl) {
+        if (!$baseUrl || !$method) {
             return;
         }
 
         $ch = curl_init();
         curl_setopt($ch, \CURLOPT_URL, $baseUrl);
         curl_setopt($ch, \CURLOPT_CUSTOMREQUEST, $method);
-        curl_setopt($ch, \CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, \CURLOPT_TIMEOUT, 30);
 
         $tagString = $tags

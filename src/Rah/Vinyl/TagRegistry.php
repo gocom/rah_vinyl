@@ -38,14 +38,14 @@ final class Rah_Vinyl_TagRegistry
      *
      * @var string[]
      */
-    static private array $tags = [];
+    private static array $tags = [];
 
     /**
      * Registers the given tags.
      *
      * @param string[] $tags
      */
-    static public function add(array $tags): void
+    public static function add(array $tags): void
     {
         self::$tags = array_merge(
             self::$tags,
@@ -58,7 +58,7 @@ final class Rah_Vinyl_TagRegistry
      *
      * @return string[]
      */
-    static public function get(): array
+    public static function get(): array
     {
         return self::$tags;
     }
@@ -66,7 +66,7 @@ final class Rah_Vinyl_TagRegistry
     /**
      * Resets registered tags.
      */
-    static public function reset(): void
+    public static function reset(): void
     {
         self::$tags = [];
     }
