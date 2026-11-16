@@ -6,3 +6,10 @@
 
 require './vendor/antecedent/patchwork/Patchwork.php';
 require './vendor/autoload.php';
+
+require './src/Rah/Vinyl/TagRegistry.php';
+require './src/Rah/Vinyl/Config.php';
+require './src/Rah/Vinyl/BuildPoolStringAction.php';
+require './src/Rah/Vinyl/Client.php';
+require './src/Functions.php';
+require './src/Rah/Vinyl/Main.php';
