@@ -37,7 +37,6 @@ function rah_vinyl($atts)
     ], $atts));
 
     if ($ignore) {
-        Rah_Vinyl_TagRegistry::reset();
         Rah_Vinyl_TagRegistry::add([Rah_Vinyl_TagRegistry::TAG_IGNORE]);
         return;
     }
@@ -58,9 +57,7 @@ function rah_vinyl($atts)
         return;
     }
 
-    if ($tags &&
-        !in_array(Rah_Vinyl_TagRegistry::TAG_IGNORE, Rah_Vinyl_TagRegistry::get(), true)
-    ) {
+    if ($tags) {
         Rah_Vinyl_TagRegistry::add($tags);
     }
 }

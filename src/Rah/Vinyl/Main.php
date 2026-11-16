@@ -54,19 +54,7 @@ final class Rah_Vinyl_Main
      */
     public function addHeaders(): void
     {
-        $registeredTags = Rah_Vinyl_TagRegistry::get();
-
-        if ($registeredTags) {
-            $registeredTags[] = Rah_Vinyl_TagRegistry::TAG_DEFAULT;
-            $tags = (new Rah_Vinyl_BuildPoolStringAction())->execute($registeredTags);
-
-            if ($tags) {
-                header(\sprintf('X-Pool: %s', $tags));
-            }
-
-            Rah_Vinyl_TagRegistry::reset();
-        } else {
-            header(\sprintf('X-Pool: %s', Rah_Vinyl_TagRegistry::TAG_DEFAULT));
-        }
+        $action = new Rah_Vinyl_AddHeadersAction();
+        $action->execute();
     }
 }
