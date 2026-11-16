@@ -36,14 +36,15 @@ function rah_vinyl($atts)
         'purge' => false,
     ], $atts));
 
+    if ($ignore) {
+        Rah_Vinyl_TagRegistry::reset();
+        Rah_Vinyl_TagRegistry::add([Rah_Vinyl_TagRegistry::TAG_IGNORE]);
+        return;
+    }
+
     $tags = $tags
         ? array_map('trim', explode(',', $tags))
         : [];
-
-    if ($ignore) {
-        header('X-Pool: ignore');
-        return;
-    }
 
     if ($purge) {
         $client = new Rah_Vinyl_Client();
@@ -57,7 +58,9 @@ function rah_vinyl($atts)
         return;
     }
 
-    if ($tags) {
+    if ($tags &&
+        !in_array(Rah_Vinyl_TagRegistry::TAG_IGNORE, Rah_Vinyl_TagRegistry::get(), true)
+    ) {
         Rah_Vinyl_TagRegistry::add($tags);
     }
 }

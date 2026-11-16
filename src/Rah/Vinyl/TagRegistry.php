@@ -33,6 +33,9 @@
  */
 final class Rah_Vinyl_TagRegistry
 {
+    public const TAG_DEFAULT = 'Textpattern';
+    public const TAG_IGNORE = 'ignore';
+
     /**
      * Tags.
      *

@@ -26,8 +26,6 @@
  */
 final class Rah_Vinyl_Main
 {
-    private const DEFAULT_TAG = 'Textpattern';
-
     /**
      * Constructor.
      */
@@ -59,7 +57,7 @@ final class Rah_Vinyl_Main
         $registeredTags = Rah_Vinyl_TagRegistry::get();
 
         if ($registeredTags) {
-            $registeredTags[] = self::DEFAULT_TAG;
+            $registeredTags[] = Rah_Vinyl_TagRegistry::TAG_DEFAULT;
             $tags = (new Rah_Vinyl_BuildPoolStringAction())->execute($registeredTags);
 
             if ($tags) {
@@ -67,6 +65,8 @@ final class Rah_Vinyl_Main
             }
 
             Rah_Vinyl_TagRegistry::reset();
+        } else {
+            header(\sprintf('X-Pool: %s', Rah_Vinyl_TagRegistry::TAG_DEFAULT));
         }
     }
 }

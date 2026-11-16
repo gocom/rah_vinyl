@@ -60,14 +60,16 @@ h2. Examples
 
 h3. Do not cache page in Vinyl Cache
 
-bc. <rah::vinyl ignore/>
+The following would add @X-Pool: ignore@ header to the page's response:
+
+bc. <rah::vinyl ignore />
 
 h3. Add specified tags to to the page
 
+The following would add @tag1@, @tag2@, @tag3@ and @tag4@ X-Pool tags to the page's response:
+
 bc. <rah::vinyl tags="tag1, tag2" />
 <rah::vinyl tags="tag2, tag3" />
-
-The above would add @tag1@, @tag2@, @tag3@ and @tag4@ X-Pool tags to the page's response.
 
 h3. Manually purge all content
 
