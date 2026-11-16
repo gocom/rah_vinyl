@@ -85,6 +85,11 @@ bc. <rah::vinyl purge tags="tag1, tag2" />
 
 h2. Changelog
 
+h3. Version 0.2.0 - upcoming
+
+* Tag's @ignore@ attribute removes and overwrites any other tags declared earlier on the same page.
+* All Textpattern CMS pages now send `X-Pool` header with at least `Textpattern` tag in it, even in cases where no tags were declared on the page.
+
 h3. Version 0.1.0 - 2026/11/15
 
 * Initial release.
